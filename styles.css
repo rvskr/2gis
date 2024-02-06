@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
-  /* overflow: hidden; */ /* Удалите или закомментируйте это свойство */
+   overflow-x: hidden; /* Запретить прокрутку по горизонтали */
   height: 100vh;
 }
 
