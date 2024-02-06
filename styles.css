@@ -101,9 +101,19 @@ footer {
   margin-bottom: 15px; /* Отступ снизу */
 }
 
+.card {
+  flex: 0 0 calc(25% - 20px);
+  margin: 10px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.7); /* Цвет фона с прозрачностью */
+  border-radius: 10px; /* Закругленные углы */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+  padding: 20px; /* Отступы внутри карточки */
+}
+
 .card a {
   display: inline-block;
-  background-color: #0088cc;
+  background-color: rgba(0, 136, 204, 0.9); /* Цвет фона ссылки с прозрачностью */
   color: #ffffff;
   padding: 10px 20px;
   border-radius: 5px;
@@ -112,7 +122,7 @@ footer {
 }
 
 .card a:hover {
-  background-color: #005580;
+  background-color: rgba(0, 85, 128, 0.9); /* Измененный цвет фона ссылки с прозрачностью при наведении */
 }
 
 .card-image {
