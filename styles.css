@@ -1,0 +1,136 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  /* overflow: hidden; */ /* Удалите или закомментируйте это свойство */
+  height: 100vh;
+}
+
+body::before {
+  content: "";
+  background-image: url('2gisback.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+header {
+  background-color: rgba(51, 51, 51, 0.7);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.instruction {
+  font-size: 0.5em; /* уменьшаем размер шрифта */
+}
+
+.instruction a {
+  color: #fff; /* устанавливаем цвет ссылки */
+  transition: font-size 0.3s ease; /* добавляем анимацию изменения размера шрифта */
+}
+
+.instruction a:hover {
+  text-decoration: underline; /* подчеркиваем ссылку при наведении */
+  font-size: 1em; /* возвращаем исходный размер шрифта при наведении */
+}
+
+h1 {
+  font-size: 3em; /* увеличиваем размер шрифта */
+  text-align: center; /* выравниваем по центру */
+  margin-top: 1vh; /* сдвигаем текст вверх */
+  margin-bottom: 20px; /* добавляем отступ снизу */
+}
+
+nav {
+  background-color: rgba(68, 68, 68, 0.7);
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  background-color: rgba(51, 51, 51, 0.7);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.card-container {
+  display: flex; /* Используем flexbox */
+  flex-wrap: wrap; /* Разрешаем перенос на новую строку, если карточек слишком много */
+  justify-content: space-around; /* Выравниваем карточки по центру горизонтально */
+}
+
+.card {
+  flex: 0 0 calc(25% - 20px);
+  margin: 10px;
+  box-sizing: border-box;
+  background-color: #ffffff; /* Цвет фона */
+  border-radius: 10px; /* Закругленные углы */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+  padding: 20px; /* Отступы внутри карточки */
+}
+
+.card h2 {
+  font-size: 1.2em; /* Размер заголовка */
+  margin-bottom: 10px; /* Отступ снизу */
+}
+
+.card p {
+  font-size: 1em; /* Размер текста */
+  margin-bottom: 15px; /* Отступ снизу */
+}
+
+.card a {
+  display: inline-block;
+  background-color: #0088cc;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s; /* Анимация при наведении */
+}
+
+.card a:hover {
+  background-color: #005580;
+}
+
+.card-image {
+  width: 100%; /* Ширина изображения */
+  max-height: 200px; /* Максимальная высота изображения */
+  object-fit: cover; /* Заполнение изображения контейнером */
+  border-radius: 10px; /* Закругленные углы */
+  margin-bottom: 10px; /* Отступ снизу */
+}
+@media screen and (max-width: 768px) { /* Применяем стили для экранов шириной до 768px */
+  .card-container {
+    display: block; /* Помещаем карточки одну под другой */
+    max-height: none; /* Убираем максимальную высоту, чтобы разрешить прокрутку */
+    overflow-y: auto; /* Включаем вертикальную прокрутку при необходимости */
+  }
+
+  .card {
+    width: 100%; /* Каждая карточка занимает всю ширину экрана */
+    margin-bottom: 20px; /* Добавляем отступ между карточками */
+  }
+}
