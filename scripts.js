@@ -1,7 +1,3 @@
-
-function openSettings() {
-  window.location.href = 'intent:#Intent;action=android.settings.SETTINGS;end';
-}
 window.addEventListener('scroll', function() {
     var scrollPosition = window.scrollY + window.innerHeight;
     var pageHeight = document.body.scrollHeight;
