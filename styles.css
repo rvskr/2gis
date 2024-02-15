@@ -27,7 +27,7 @@ body {
 }
 
 header, section, footer {
-  padding: 30px 0;
+
   text-align: center;
   background-color: rgba(0, 0, 0, 0.8); /* Черный фон с небольшой прозрачностью */
   border-radius: 10px;
@@ -44,7 +44,7 @@ header h1 {
 
 
 header {
-  background-color: rgba(0, 0, 0, 0.6); /* Черный фон для хедера с прозрачностью */
+  background-color: rgba(0, 0, 0, 0.664); /* Черный фон для хедера с прозрачностью */
 }
 
 p {
@@ -53,7 +53,7 @@ p {
 }
 
 section {
-  background-color: rgba(0, 0, 0, 0.8); /* Черный фон с небольшой прозрачностью */
+  background-color: rgba(0, 0, 0, 0.658); /* Черный фон с небольшой прозрачностью */
 }
 
 label {
@@ -61,19 +61,8 @@ label {
   color: #CCCCCC; /* Серый текст */
 }
 
-input[type="text"],
-input[type="email"],
-input[type="tel"] {
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #333; /* Темная граница */
-  border-radius: 5px;
-  background-color: #333; /* Темный фон */
-  color: #E0E0E0; /* Светлый текст */
-}
-
 button {
-  padding: 15px;
+  padding: 20px;
   background-color: #2196F3; /* Синий */
   color: #fff;
   border: none;
@@ -86,7 +75,6 @@ button:hover {
 }
 
 footer {
-  background-color: rgba(50, 50, 50, 0.8); /* Темный фон с небольшой прозрачностью */
   color: #B0B0B0; /* Светло-серый текст */
   text-align: center;
   border-radius: 10px;
