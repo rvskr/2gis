@@ -111,6 +111,15 @@ footer p {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
+.advantage-block, .step, .price-step {
+  margin-bottom: 16px;
+  margin-right: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Добавляем белую обводку */
+}
+
+.aida-block {
+  border: 1px solid rgba(0, 0, 0, 0.2); /* Добавляем черную обводку */
+}
 
 
 
@@ -123,7 +132,7 @@ footer p {
   color: #B0B0B0; /* Светло-серый текст */
   opacity: 0.8; /* Прозрачность текста */
 }
-/* Дополнительные стили для секции с ценой */
+
 /* Дополнительные стили для секции с ценой */
 #price {
   background-color: rgba(0, 0, 0, 0.8);
@@ -137,6 +146,7 @@ footer p {
   display: flex;
   justify-content: space-between; /* Горизонтальное расположение блоков на компьютерах */
   margin-top: 30px;
+  margin-bottom: 16px;
 }
 
 .price-step {
