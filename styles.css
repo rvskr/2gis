@@ -2,149 +2,267 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  position: relative;
-   overflow-x: hidden; /* Запретить прокрутку по горизонтали */
-  height: 100vh;
+  overflow-x: hidden;
+  background-color: #1E1E1E; /* Темный фон */
+  color: #E0E0E0; /* Светлый текст */
 }
 
-body::before {
-  content: "";
-  background-image: url('2gisback.jpg');
+.blur-bg {
+  background-image: url('background.jpg');
   background-size: cover;
   background-position: center;
-  filter: blur(3px);
-  position: absolute;
+  backdrop-filter: blur(10px);
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   z-index: -1;
 }
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header, section, footer {
+  padding: 30px 0;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8); /* Черный фон с небольшой прозрачностью */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+header section h2, p, ul, form label {
+  font-size: 120%;
+  color: #E0E0E0; /* Светлый текст */
+}
+header h1 {
+  font-size: 250%;
+}
+
+
 header {
-  background-color: rgba(51, 51, 51, 0.7);
-  color: #fff;
-  padding: 2px;
-  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6); /* Черный фон для хедера с прозрачностью */
 }
 
-.instruction {
-  font-size: 0.5em; /* уменьшаем размер шрифта */
+p {
+  margin: 10px 0;
+  color: #B0B0B0; /* Светло-серый текст */
 }
 
-.instruction a {
-  color: #fff; /* устанавливаем цвет ссылки */
-  transition: font-size 0.3s ease; /* добавляем анимацию изменения размера шрифта */
+section {
+  background-color: rgba(0, 0, 0, 0.8); /* Черный фон с небольшой прозрачностью */
 }
 
-.instruction a:hover {
-  text-decoration: underline; /* подчеркиваем ссылку при наведении */
-  font-size: 1em; /* возвращаем исходный размер шрифта при наведении */
+label {
+  margin-bottom: 5px;
+  color: #CCCCCC; /* Серый текст */
 }
 
-h1 {
-  font-size: 3em; /* увеличиваем размер шрифта */
-  text-align: center; /* выравниваем по центру */
-  margin-top: 1vh; /* сдвигаем текст вверх */
-  margin-bottom: 20px; /* добавляем отступ снизу */
-}
-
-nav {
-  background-color: rgba(68, 68, 68, 0.7);
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  margin-bottom: 10px;
   padding: 10px;
-  text-align: center;
+  border: 1px solid #333; /* Темная граница */
+  border-radius: 5px;
+  background-color: #333; /* Темный фон */
+  color: #E0E0E0; /* Светлый текст */
 }
 
-nav a {
+button {
+  padding: 15px;
+  background-color: #2196F3; /* Синий */
   color: #fff;
-  text-decoration: none;
-  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-nav a:hover {
-  text-decoration: underline;
+button:hover {
+  background-color: #1976D2; /* Синий при наведении */
 }
 
 footer {
-  background-color: rgba(51, 51, 51, 0.7);
-  color: #fff;
-  padding: 10px;
+  background-color: rgba(50, 50, 50, 0.8); /* Темный фон с небольшой прозрачностью */
+  color: #B0B0B0; /* Светло-серый текст */
   text-align: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-.card-container {
-  display: flex; /* Используем flexbox */
-  flex-wrap: wrap; /* Разрешаем перенос на новую строку, если карточек слишком много */
-  justify-content: space-around; /* Выравниваем карточки по центру горизонтально */
+footer p {
+  margin: 0;
+  padding: 20px 0;
 }
 
-.card {
-  flex: 0 0 calc(25% - 20px);
-  margin: 10px;
-  box-sizing: border-box;
-  background-color: #ffffff; /* Цвет фона */
-  border-radius: 10px; /* Закругленные углы */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
-  padding: 20px; /* Отступы внутри карточки */
+.advantage-blocks, .steps, #price, .aida-container {
+
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.advantage-block, .step, .aida-block {
+  background-color: rgba(0, 0, 0, 0.062); /* Черный фон с большей прозрачностью */
+  flex-basis: calc(33.333% - 20px);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-.card h2 {
-  font-size: 1.2em; /* Размер заголовка */
-  margin-bottom: 10px; /* Отступ снизу */
+
+
+.advantage-block h3, .step h3, .aida-block h3 {
+  margin-top: 0;
+  color: #E0E0E0; /* Светлый текст */
 }
 
-.card p {
-  font-size: 1em; /* Размер текста */
-  margin-bottom: 15px; /* Отступ снизу */
+.advantage-block p, .step p, .aida-block p {
+  color: #B0B0B0; /* Светло-серый текст */
+  opacity: 0.8; /* Прозрачность текста */
+}
+/* Дополнительные стили для секции с ценой */
+/* Дополнительные стили для секции с ценой */
+#price {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #E0E0E0;
+  padding: 30px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-.card {
-  flex: 0 0 calc(25% - 20px);
-  margin: 10px;
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.65); /* Цвет фона с прозрачностью */
-  border-radius: 10px; /* Закругленные углы */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
-  padding: 20px; /* Отступы внутри карточки */
+.price-steps {
+  display: flex;
+  justify-content: space-between; /* Горизонтальное расположение блоков на компьютерах */
+  margin-top: 30px;
 }
 
-.card a {
+.price-step {
+  flex-basis: calc(33.333% - 20px); /* Блоки занимают треть ширины родительского контейнера на компьютерах */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.price-step h3 {
+  margin-top: 0;
+  color: #E0E0E0;
+}
+
+.price-step p {
+  color: #B0B0B0;
+}
+
+/* Изменения для мобильных устройств */
+@media only screen and (max-width: 768px) {
+  .price-steps {
+      flex-direction: column; /* Вертикальное расположение блоков на мобильных устройствах */
+  }
+
+  .price-step {
+      flex-basis: 100%; /* Блоки занимают всю ширину родительского контейнера на мобильных устройствах */
+      margin-bottom: 20px; /* Добавляем отступ между блоками */
+  }
+}
+
+
+/* Дополнительные стили для кнопок "Связаться" */
+.cta-button {
+  padding: 15px 30px;
+  background-color: #FF9800; /* Оранжевый */
+  color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none; /* Убираем стандартное подчеркивание для ссылок */
+}
+
+.cta-button:hover {
+  background-color: #F57C00; /* Темно-оранжевый при наведении */
+}
+#price .cta-button {
+  margin: 0 auto; /* Центрируем кнопку по горизонтали */
+
+  padding: 15px 30px; /* Задаем отступы вокруг текста кнопки */
+  background-color: #FF9800; /* Цвет фона кнопки */
+  color: #fff; /* Цвет текста кнопки */
+  border: none; /* Убираем границу у кнопки */
+  border-radius: 5px; /* Задаем скругленные углы кнопки */
+  cursor: pointer; /* Задаем курсор указателя при наведении на кнопку */
+}
+h1 {
+  font-size: 250%; /* Установка размера шрифта в 150% от базового размера */
+}
+a.download-link {
   display: inline-block;
-  background-color: rgba(0, 136, 204, 0.9); /* Цвет фона ссылки с прозрачностью */
+  padding: 10px 20px;
+  background-color: #2196F3; /* Цвет фона (синий) */
+  color: #fff; /* Цвет текста (белый) */
+  text-decoration: none; /* Убираем подчеркивание */
+  border-radius: 5px; /* Закругленные углы */
+  transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+}
+
+a.download-link:hover {
+  background-color: #1976D2; /* Изменение цвета при наведении (более темный синий) */
+}
+@media only screen and (max-width: 768px) {
+  .advantage-blocks, .steps, #price, .aida-container {
+      flex-direction: column; /* Блоки будут располагаться сверху вниз */
+  }
+
+  .advantage-block, .step, .aida-block {
+      flex-basis: 100%; /* Блоки занимают всю ширину экрана */
+      margin-bottom: 20px; /* Добавляем отступ между блоками */
+  }
+}
+.section-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.section {
+  flex: 0 0 calc(25% - 20px);
+  margin: 10px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.65);
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.section h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.section p {
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+.section a {
+  display: inline-block;
+  background-color: rgba(0, 136, 204, 0.9);
   color: #ffffff;
   padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
-  transition: background-color 0.3s; /* Анимация при наведении */
+  transition: background-color 0.3s;
 }
 
-.card a:hover {
-  background-color: rgba(0, 85, 128, 0.9); /* Измененный цвет фона ссылки с прозрачностью при наведении */
+.section a:hover {
+  background-color: rgba(0, 85, 128, 0.9);
 }
 
-.card-image {
-  width: 100%; /* Ширина изображения */
-  max-height: 200px; /* Максимальная высота изображения */
-  object-fit: cover; /* Заполнение изображения контейнером */
-  border-radius: 10px; /* Закругленные углы */
-  margin-bottom: 10px; /* Отступ снизу */
+.block {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
-@media screen and (max-width: 768px) { /* Применяем стили для экранов шириной до 768px */
-  .card-container {
-    display: block; /* Помещаем карточки одну под другой */
-    max-height: none; /* Убираем максимальную высоту, чтобы разрешить прокрутку */
-    overflow-y: auto; /* Включаем вертикальную прокрутку при необходимости */
-  }
-
-  .card {
-    width: 100%; /* Каждая карточка занимает всю ширину экрана */
-    margin-bottom: 20px; /* Добавляем отступ между карточками */
-  }
-}
-.telegram-wrapper {
-    text-align: center;
-}
-
