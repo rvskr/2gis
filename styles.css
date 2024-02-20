@@ -264,3 +264,46 @@ a.download-link:hover {
   border-radius: 10px;
   margin-bottom: 10px;
 }
+/* Стили для контейнера хедера */
+header .container {
+  position: relative;
+}
+
+/* Стили для кнопки переключения языка */
+.language-switch {
+  position: absolute;
+  top: 30%;
+  right: 10px;
+  padding: 10px 20px;
+  background-color: #292626;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.language-switch:hover {
+  background-color: #F57C00;
+}
+@media only screen and (max-width: 600px) {
+  .cta-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999; /* Встановлюємо велике значення z-index, щоб кнопка була наверху */
+  }
+}
+
+/* Додайте медіа-запит для мобільних пристроїв */
+@media only screen and (max-width: 600px) {
+  .header-content {
+      position: relative;
+  }
+
+  .language-switch {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+  }
+}

@@ -9,12 +9,17 @@
 </head>
 <body>
     <div class="blur-bg"></div>
-    <header>
-        <div class="container">
+   <header>
+    <div class="container">
+        <button class="language-switch" onclick="switchlang()">Українська</button>
+        <div class="header-content">
             <h1>Установите 2ГИС в Украине</h1>
-            <p>Самая подробная карта для водителей такси, курьеров и тех, кому важна точная навигация!</p>
+
         </div>
-    </header>
+        <p>Самая подробная карта для водителей такси, курьеров и тех, кому важна точная навигация!</p>
+    </div>
+</header>
+
     <section id="advantages">
         <div class="container">
             <h1>Преимущества</h1>
@@ -106,6 +111,12 @@
       gtag('js', new Date());
     
       gtag('config', 'G-YG869JCTXR');
+    </script>
+     <script>
+        function switchlang() {
+            // Переход на страницу украинской версии
+            window.location.href = 'index_ua.html'; // Предполагается, что файл с украинской версией называется "index_uk.html"
+        }
     </script>
 </body>
 </html>
