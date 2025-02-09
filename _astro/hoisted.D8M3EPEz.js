@@ -1,0 +1,1 @@
+import"./hoisted.CJvGnUUk.js";document.getElementById("toggle-step3").addEventListener("click",()=>{const e=document.getElementById("step3-hidden");e.classList.toggle("hidden"),document.getElementById("toggle-step3").style.display=e.classList.contains("hidden")?"block":"none"});
