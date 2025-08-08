@@ -7,11 +7,10 @@ import NotFound from "@/pages/not-found";
 import { Home } from "@/pages/home";
 import InstructionsPage from "@/pages/instructions-page";
 
-// Переименуем вашу функцию Router, чтобы не было конфликта с компонентом Router из wouter
 function AppRoutes() {
   return (
     <Switch>
-      <Route path="/" component={Home}/>
+      <Route path="/" component={Home} />
       <Route path="/online-instructions" component={InstructionsPage} />
       <Route component={NotFound} />
     </Switch>
@@ -19,12 +18,15 @@ function AppRoutes() {
 }
 
 function App() {
+  // Определяем базовый путь динамически
+  const base = import.meta.env.PROD ? "/2gis/" : undefined;
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        {/* Оберните AppRoutes в компонент Router с base */}
-        <Router base="/2gis/">
+        {/* Передаем base только в продакшн-режиме */}
+        <Router base={base}>
           <AppRoutes />
         </Router>
       </TooltipProvider>
