@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { X, Download, Settings, MessageCircle, CheckCircle } from "lucide-react";
 import { useLocation } from "wouter";
+import { FaTelegram } from 'react-icons/fa';
 
 // LanguageSwitcher component
 interface LanguageSwitcherProps {
@@ -109,6 +110,11 @@ const appLinks = {
   "TeamViewer Universal Add-On": "https://play.google.com/store/apps/details?id=com.teamviewer.quicksupport.addon.universal"
 };
 
+// Унифицированный компонент для иконки Telegram
+const TelegramIcon = () => (
+    <FaTelegram style={{ fontSize: '24px', color: '#fff' }} />
+);
+
 export default function InstructionsPage() {
   const [location, setLocation] = useLocation();
   const [language, setLanguage] = useState<'ru' | 'ua'>(() => {
@@ -140,7 +146,7 @@ export default function InstructionsPage() {
   };
 
   const t = translations[language];
-  const telegramUrl = import.meta.env.VITE_TELEGRAM_URL || "https://t.me/your_telegram";
+  const telegramUrl = "https://t.me/r_vskr"; // Обновлена ссылка на Telegram
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -320,9 +326,7 @@ export default function InstructionsPage() {
             data-testid="button-start-installation"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            <svg className="w-6 h-6 relative z-10" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm5.568 8.16c-.169 1.858-.896 6.728-.896 6.728-.341 1.653-.669 1.653-1.132 1.653-.743 0-1.2-.486-1.2-.486l-3.897-2.965-1.35-.486s.896-.611 1.653-1.132c.486-.343.486-.486 0-.486-.486 0-1.653.486-1.653.486l-2.965 1.132s-.486.343-.486 1.132c0 .669.486 1.132.486 1.132l7.794 2.965s1.132.486 1.653 0c.486-.486.486-1.132.486-1.132l1.132-6.728c.169-1.165-.169-1.653-.669-1.653-.486 0-1.132.343-1.132.343z"/>
-            </svg>
+            <TelegramIcon />
             <span className="relative z-10">{t.startButton}</span>
           </button>
           
