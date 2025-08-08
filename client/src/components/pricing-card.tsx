@@ -14,6 +14,7 @@ interface PricingCardProps {
     selectButton: string;
     instructionsButton?: string;
   };
+  popularLabel: string; // Добавлен новый пропс для перевода
 }
 
 const getCardIcon = (type: string) => {
@@ -70,7 +71,7 @@ const getColors = (type: string) => {
   }
 };
 
-export function PricingCard({ type, price, isPopular, onSelect, onShowInstructions, translations }: PricingCardProps) {
+export function PricingCard({ type, price, isPopular, onSelect, onShowInstructions, translations, popularLabel }: PricingCardProps) {
   const colors = getColors(type);
   const icon = getCardIcon(type);
 
@@ -79,7 +80,7 @@ export function PricingCard({ type, price, isPopular, onSelect, onShowInstructio
       {isPopular && (
         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
           <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-            Популярный
+            {popularLabel} {/* Теперь текст берется из пропса */}
           </span>
         </div>
       )}

@@ -33,7 +33,7 @@ export function LanguageSwitcher({ onLanguageChange, currentLanguage }: Language
         onClick={() => onLanguageChange('ua')}
         data-testid="button-lang-ua"
       >
-        УА
+        UA
       </Button>
     </div>
   );

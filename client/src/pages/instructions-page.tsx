@@ -1,16 +1,52 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { X } from "lucide-react";
+import { useLocation } from "wouter";
 
-interface InstructionsSectionProps {
-  isVisible: boolean;
-  onClose: () => void;
-  language: 'ru' | 'ua';
+// LanguageSwitcher component is now defined in the same file for a self-contained example
+interface LanguageSwitcherProps {
+  onLanguageChange: (language: 'ru' | 'ua') => void;
+  currentLanguage: 'ru' | 'ua';
+}
+
+function LanguageSwitcher({ onLanguageChange, currentLanguage }: LanguageSwitcherProps) {
+  return (
+    <div className="bg-dark-accent rounded-lg p-1 flex">
+      <Button
+        variant={currentLanguage === 'ru' ? 'default' : 'ghost'}
+        size="sm"
+        className={`px-3 py-1 text-sm font-medium transition-all duration-200 ${
+          currentLanguage === 'ru' 
+            ? 'bg-blue-600 text-white hover:bg-blue-700' 
+            : 'text-slate-400 hover:text-slate-200 bg-transparent hover:bg-transparent'
+        }`}
+        onClick={() => onLanguageChange('ru')}
+        data-testid="button-lang-ru"
+      >
+        РУ
+      </Button>
+      <Button
+        variant={currentLanguage === 'ua' ? 'default' : 'ghost'}
+        size="sm"
+        className={`px-3 py-1 text-sm font-medium transition-all duration-200 ${
+          currentLanguage === 'ua' 
+            ? 'bg-blue-600 text-white hover:bg-blue-700' 
+            : 'text-slate-400 hover:text-slate-200 bg-transparent hover:bg-transparent'
+        }`}
+        onClick={() => onLanguageChange('ua')}
+        data-testid="button-lang-ua"
+      >
+        УА
+      </Button>
+    </div>
+  );
 }
 
 const translations = {
   ru: {
-    title: "Предварительные инструкции для онлайн установки",
+    headerTitle: "Установка 2GIS", // Added this key for the main header title
+    pageTitle: "Предварительные инструкции для онлайн установки", // Renamed for clarity
     step1: {
       title: "Скачайте необходимые приложения",
       description: "Перед началом установки вам потребуется скачать 2 программы из Google Play Market:",
@@ -36,7 +72,8 @@ const translations = {
     closeButton: "Закрыть"
   },
   ua: {
-    title: "Попередні інструкції для онлайн встановлення",
+    headerTitle: "Встановлення 2GIS", // Added this key for the main header title
+    pageTitle: "Попередні інструкції для онлайн встановлення", // Renamed for clarity
     step1: {
       title: "Завантажте необхідні додатки",
       description: "Перед початком встановлення вам знадобиться завантажити 2 програми з Google Play Market:",
@@ -68,33 +105,59 @@ const appLinks = {
     "TeamViewer Universal Add-On": "https://play.google.com/store/apps/details?id=com.teamviewer.quicksupport.addon.universal"
 };
 
-export function InstructionsSection({ isVisible, onClose, language }: InstructionsSectionProps) {
+export default function InstructionsPage() {
+  const [location, setLocation] = useLocation();
+  const [language, setLanguage] = useState<'ru' | 'ua'>(() => {
+    return location.includes('lang=ua') ? 'ua' : 'ru';
+  });
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
+  const handleClose = () => {
+    setLocation('/');
+  };
+  
+  const handleLanguageChange = (newLanguage: 'ru' | 'ua') => {
+    setLanguage(newLanguage);
+  };
+
   const t = translations[language];
   const telegramUrl = import.meta.env.VITE_TELEGRAM_URL || "https://t.me/your_telegram";
 
-  if (!isVisible) return null;
-
   return (
-    <section className="py-16 bg-dark-secondary">
+    <section className="py-16 bg-dark-secondary min-h-screen">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <Card className="bg-dark-primary border border-slate-700 rounded-xl">
             <CardContent className="p-8">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-semibold text-slate-100">
-                  {t.title}
-                </h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-slate-400 hover:text-slate-200 transition-colors duration-200"
-                  onClick={onClose}
-                  data-testid="button-close-instructions"
-                >
-                  <X className="w-6 h-6" />
-                </Button>
-              </div>
+              {/* New unified header block */}
+              <header className="flex items-center justify-between mb-8 pb-4 border-b border-slate-700">
+                <h1 className="text-2xl font-bold text-slate-100">
+                  {t.headerTitle}
+                </h1>
+                <div className="flex items-center space-x-2">
+                  <LanguageSwitcher currentLanguage={language} onLanguageChange={handleLanguageChange} />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-slate-400 hover:text-slate-200 transition-colors duration-200"
+                    onClick={handleClose}
+                    data-testid="button-close-instructions"
+                  >
+                    <X className="w-6 h-6" />
+                  </Button>
+                </div>
+              </header>
               
+              <h2 className="text-xl font-semibold text-slate-100 mb-6">
+                {t.pageTitle}
+              </h2>
+
               <div className="space-y-6">
                 <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
                   <div className="flex items-start">
@@ -162,7 +225,7 @@ export function InstructionsSection({ isVisible, onClose, language }: Instructio
                 <Button
                   variant="outline"
                   className="px-6 py-3 bg-transparent border border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white font-medium rounded-lg transition-all duration-200"
-                  onClick={onClose}
+                  onClick={handleClose}
                   data-testid="button-close-instructions-bottom"
                 >
                   {t.closeButton}

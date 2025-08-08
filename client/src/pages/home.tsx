@@ -3,13 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { PricingCard } from "@/components/pricing-card";
-import { InstructionsSection } from "@/components/instructions-section";
 import { ChevronDown, Clock, CheckCircle, Zap } from "lucide-react";
+import { useLocation } from "wouter";
+import { FaTelegram } from 'react-icons/fa';
+
+// Унифицированный компонент для иконки Telegram
+const TelegramIcon = () => (
+  <FaTelegram style={{ fontSize: '24px', color: '#fff' }} />
+);
 
 const translations = {
   ru: {
     header: {
-      title: "Установка 2GIS"
+      title: "Установка 2GIS для Киева, Днепра, Одессы, Харькова "
     },
     hero: {
       title: "Профессиональная установка 2GIS",
@@ -19,21 +25,23 @@ const translations = {
     },
     services: {
       title: "Наши услуги установки",
+      popularLabel: "Популярный", // Добавлен перевод для метки "Популярный"
       offline: {
         title: "Офлайн установка",
         features: ["Личная встреча", "Полная настройка", "Гарантия работы"],
-        selectButton: "Выбрать услугу"
+        selectButton: "Связаться"
       },
       online: {
-        title: "Онлайн установка", 
+        title: "Онлайн установка",
         features: ["Удаленная установка", "Пошаговые инструкции", "Быстро и удобно"],
-        selectButton: "Выбрать услугу",
+        selectButton: "Связаться",
         instructionsButton: "Предварительные инструкции"
       },
       apk: {
         title: "Установка через APK",
-        features: ["APK файл приложения", "Инструкция установки", "Самостоятельная установка"],
-        selectButton: "Выбрать услугу"
+        price: "200 грн",
+        features: ["APK файл приложения", "Инструкция установки"],
+        selectButton: "Скачать APK"
       }
     },
     contact: {
@@ -62,7 +70,7 @@ const translations = {
   },
   ua: {
     header: {
-      title: "Встановлення 2GIS"
+      title: "Встановлення 2GIS для Києва, Дніпра, Одеси, Харкова"
     },
     hero: {
       title: "Професійне встановлення 2GIS",
@@ -72,21 +80,23 @@ const translations = {
     },
     services: {
       title: "Наші послуги встановлення",
+      popularLabel: "Популярний", // Добавлен перевод для метки "Популярный"
       offline: {
         title: "Офлайн встановлення",
         features: ["Особиста зустріч", "Повне налаштування", "Гарантія роботи"],
-        selectButton: "Обрати послугу"
+        selectButton: "Зв'язатися"
       },
       online: {
         title: "Онлайн встановлення",
         features: ["Віддалене встановлення", "Покрокові інструкції", "Швидко та зручно"],
-        selectButton: "Обрати послугу",
+        selectButton: "Зв'язатися",
         instructionsButton: "Попередні інструкції"
       },
       apk: {
         title: "Встановлення через APK",
-        features: ["APK файл додатку", "Інструкція встановлення", "Самостійне встановлення"],
-        selectButton: "Обрати послугу"
+        price: "200 грн",
+        features: ["APK файл додатку", "Інструкція встановлення"],
+        selectButton: "Завантажити APK"
       }
     },
     contact: {
@@ -115,11 +125,13 @@ const translations = {
   }
 };
 
-export default function Home() {
+export function Home() {
   const [language, setLanguage] = useState<'ru' | 'ua'>('ru');
-  const [showInstructions, setShowInstructions] = useState(false);
+  const [location, setLocation] = useLocation();
+
   const t = translations[language];
   const telegramUrl = import.meta.env.VITE_TELEGRAM_URL || "https://t.me/your_telegram";
+  const apkDownloadUrl = "https://github.com/rvskr/2gis/releases/download/1.0/2GisHelper.apk";
 
   const handleServiceSelect = (service: string) => {
     console.log(`Selected service: ${service}`);
@@ -130,15 +142,19 @@ export default function Home() {
     document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleShowInstructions = () => {
+    setLocation('/online-instructions');
+  };
+
   return (
     <div className="min-h-screen bg-dark-primary text-slate-100 antialiased">
-      {/* Header */}
-      <header className="bg-dark-secondary border-b border-slate-700">
+      {/* Header - теперь закреплен вверху страницы */}
+      <header className="bg-dark-secondary border-b border-slate-700 fixed top-0 left-0 right-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">2G</span>
+                <span className="text-white font-bold text-lg">GIS</span>
               </div>
               <h1 className="text-xl font-semibold text-slate-100" data-testid="text-header-title">
                 {t.header.title}
@@ -155,7 +171,8 @@ export default function Home() {
         </div>
       </header>
 
-      <main>
+      {/* Main content - добавлен отступ сверху */}
+      <main className="pt-20">
         {/* Hero Section */}
         <section className="py-16 bg-gradient-to-b from-dark-secondary to-dark-primary">
           <div className="container mx-auto px-4 text-center">
@@ -175,14 +192,12 @@ export default function Home() {
                 {t.hero.selectService}
               </Button>
               <Button 
-                className="inline-flex items-center px-6 py-3 bg-telegram-blue hover:bg-blue-600 text-white font-medium rounded-lg transition-colors duration-200"
+                className="inline-flex items-center px-6 py-3 bg-[#0088cc] hover:bg-[#0077b3] text-white font-medium rounded-lg transition-colors duration-200"
                 onClick={() => window.open(telegramUrl, '_blank')}
                 data-testid="button-contact-telegram"
               >
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm5.568 8.16c-.169 1.858-.896 6.728-.896 6.728-.341 1.653-.669 1.653-1.132 1.653-.743 0-1.2-.486-1.2-.486l-3.897-2.965-1.35-.486s.896-.611 1.653-1.132c.486-.343.486-.486 0-.486-.486 0-1.653.486-1.653.486l-2.965 1.132s-.486.343-.486 1.132c0 .669.486 1.132.486 1.132l7.794 2.965s1.132.486 1.653 0c.486-.486.486-1.132.486-1.132l1.132-6.728c.169-1.165-.169-1.653-.669-1.653-.486 0-1.132.343-1.132.343z"/>
-                </svg>
-                {t.hero.contactTelegram}
+                <TelegramIcon />
+                <span className="ml-2">{t.hero.contactTelegram}</span>
               </Button>
             </div>
           </div>
@@ -201,6 +216,7 @@ export default function Home() {
                 price={300}
                 onSelect={handleServiceSelect}
                 translations={t.services.offline}
+                popularLabel={t.services.popularLabel}
               />
               
               <PricingCard
@@ -208,29 +224,47 @@ export default function Home() {
                 price={250}
                 isPopular={true}
                 onSelect={handleServiceSelect}
-                onShowInstructions={() => setShowInstructions(true)}
+                onShowInstructions={handleShowInstructions}
                 translations={{
                   ...t.services.online,
                   instructionsButton: t.services.online.instructionsButton
                 }}
+                popularLabel={t.services.popularLabel}
               />
               
-              <PricingCard
-                type="apk"
-                price={200}
-                onSelect={handleServiceSelect}
-                translations={t.services.apk}
-              />
+              {/* Кастомная карточка для установки через APK */}
+              <Card className="bg-dark-secondary border border-slate-700 rounded-xl flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow duration-200">
+                <CardContent className="p-8">
+                  <div className="text-center">
+                    <h4 className="text-xl font-bold text-slate-100 mb-2">
+                      {t.services.apk.title}
+                    </h4>
+                    <p className="text-2xl font-bold text-blue-500 mb-4">
+                      {t.services.apk.price}
+                    </p>
+                    <ul className="text-slate-300 space-y-2 text-left mt-4">
+                      {t.services.apk.features.map((feature, index) => (
+                        <li key={index} className="flex items-center">
+                          <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+                <div className="p-8 pt-0">
+                  <a
+                    href={apkDownloadUrl}
+                    download
+                    className="inline-flex items-center justify-center w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
+                  >
+                    {t.services.apk.selectButton}
+                  </a>
+                </div>
+              </Card>
             </div>
           </div>
         </section>
-
-        {/* Instructions Section */}
-        <InstructionsSection
-          isVisible={showInstructions}
-          onClose={() => setShowInstructions(false)}
-          language={language}
-        />
 
         {/* Contact Section */}
         <section className="py-16 bg-dark-primary">
@@ -286,14 +320,12 @@ export default function Home() {
               </Card>
               
               <Button
-                className="inline-flex items-center px-8 py-4 bg-telegram-blue hover:bg-blue-600 text-white text-lg font-semibold rounded-lg transition-colors duration-200 shadow-lg"
+                className="inline-flex items-center px-8 py-4 bg-[#0088cc] hover:bg-[#0077b3] text-white text-lg font-semibold rounded-lg transition-colors duration-200 shadow-lg"
                 onClick={() => window.open(telegramUrl, '_blank')}
                 data-testid="button-contact-main"
               >
-                <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm5.568 8.16c-.169 1.858-.896 6.728-.896 6.728-.341 1.653-.669 1.653-1.132 1.653-.743 0-1.2-.486-1.2-.486l-3.897-2.965-1.35-.486s.896-.611 1.653-1.132c.486-.343.486-.486 0-.486-.486 0-1.653.486-1.653.486l-2.965 1.132s-.486.343-.486 1.132c0 .669.486 1.132.486 1.132l7.794 2.965s1.132.486 1.653 0c.486-.486.486-1.132.486-1.132l1.132-6.728c.169-1.165-.169-1.653-.669-1.653-.486 0-1.132.343-1.132.343z"/>
-                </svg>
-                {t.contact.contactButton}
+                <TelegramIcon />
+                <span className="ml-3">{t.contact.contactButton}</span>
               </Button>
             </div>
           </div>
@@ -306,7 +338,7 @@ export default function Home() {
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">2G</span>
+                <span className="text-white font-bold">GIS</span>
               </div>
               <span className="text-slate-300 font-medium" data-testid="text-footer-title">
                 {t.header.title}
@@ -316,7 +348,7 @@ export default function Home() {
               {t.footer.description}
             </p>
             <p className="text-slate-500 text-xs" data-testid="text-footer-copyright">
-              © 2024 2GIS Installation Services. {t.footer.copyright}.
+              © 2025 2GIS Installation Services. {t.footer.copyright}.
             </p>
           </div>
         </div>

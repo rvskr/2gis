@@ -16,6 +16,7 @@ export default defineConfig({
         ]
       : []),
   ],
+  base: "/2gid/", // <--- Добавить здесь
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
