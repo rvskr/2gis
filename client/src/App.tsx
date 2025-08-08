@@ -19,7 +19,7 @@ function AppRoutes() {
 
 function App() {
   // Определяем базовый путь динамически
-  const base = import.meta.env.PROD ? "/2gis/" : undefined;
+  const base = import.meta.env.PROD ? "/2gis" : undefined;
 
   return (
     <QueryClientProvider client={queryClient}>

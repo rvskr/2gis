@@ -16,7 +16,7 @@ export default defineConfig({
         ]
       : []),
   ],
-  base: "/2gis/", // <-- Добавьте эту строку
+  base: "/2gis", // <-- Добавьте эту строку
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
