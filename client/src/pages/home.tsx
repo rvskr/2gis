@@ -130,7 +130,7 @@ export function Home() {
   const [location, setLocation] = useLocation();
 
   const t = translations[language];
-  const telegramUrl = import.meta.env.VITE_TELEGRAM_URL || "https://t.me/your_telegram";
+  const telegramUrl = import.meta.env.VITE_TELEGRAM_URL || "https://t.me/r_vskr";
   const apkDownloadUrl = "https://github.com/rvskr/2gis/releases/download/1.0/2GisHelper.apk";
 
   const handleServiceSelect = (service: string) => {
