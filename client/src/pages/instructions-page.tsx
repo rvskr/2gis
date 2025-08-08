@@ -149,7 +149,7 @@ export default function InstructionsPage() {
   const telegramUrl = "https://t.me/r_vskr"; // Обновлена ссылка на Telegram
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 font-sans text-white">
       {/* Animated background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -157,9 +157,9 @@ export default function InstructionsPage() {
         <div className="absolute top-1/2 left-1/2 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-2xl p-6 mb-8">
+        <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-2xl p-4 sm:p-6 lg:p-8 mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
@@ -191,9 +191,9 @@ export default function InstructionsPage() {
         <div className="max-w-4xl mx-auto space-y-6">
           {/* Step 1 */}
           <div className="group">
-            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300 p-8">
-              <div className="flex items-start gap-6">
-                <div className="flex-shrink-0 relative">
+            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300 p-4 sm:p-6 lg:p-8">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="relative flex-shrink-0">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
                     <Download className="w-6 h-6 text-white" />
                   </div>
@@ -203,40 +203,40 @@ export default function InstructionsPage() {
                     </div>
                   )}
                 </div>
+                <div className="flex-1 flex items-center justify-between gap-3">
+                  <h3 className="text-2xl font-semibold text-white">{t.step1.title}</h3>
+                  <button
+                    onClick={() => toggleStepComplete(1)}
+                    className="text-sm px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 hover:bg-green-500/20 hover:text-green-400 transition-all duration-200"
+                  >
+                    {completedSteps.includes(1) ? t.ready : '✓'}
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <p className="text-slate-300 text-lg mb-6">{t.step1.description}</p>
                 
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <h3 className="text-2xl font-semibold text-white">{t.step1.title}</h3>
-                    <button
-                      onClick={() => toggleStepComplete(1)}
-                      className="text-sm px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 hover:bg-green-500/20 hover:text-green-400 transition-all duration-200"
-                    >
-                      {completedSteps.includes(1) ? t.ready : '✓'}
-                    </button>
-                  </div>
-                  <p className="text-slate-300 text-lg mb-6">{t.step1.description}</p>
-                  
-                  <div className="space-y-4">
-                    {t.step1.apps.map((app, index) => (
-                      <div key={index} className="bg-slate-700/30 rounded-xl p-4 border border-slate-600/30">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="font-medium text-white mb-1">{app}</h4>
-                            <p className="text-sm text-slate-400">Google Play Market</p>
-                          </div>
-                          <a
-                            href={appLinks[app as keyof typeof appLinks]}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                          >
-                            <Download className="w-4 h-4" />
-                            {t.step1.downloadText}
-                          </a>
+                <div className="space-y-4">
+                  {t.step1.apps.map((app, index) => (
+                    <div key={index} className="bg-slate-700/30 rounded-xl px-4 py-3 border border-slate-600/30">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-medium text-white mb-1">{app}</h4>
+                          <p className="text-sm text-slate-400">Google Play Market</p>
                         </div>
+                        <a
+                          href={appLinks[app as keyof typeof appLinks]}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        >
+                          <Download className="w-4 h-4" />
+                          {t.step1.downloadText}
+                        </a>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -244,9 +244,9 @@ export default function InstructionsPage() {
 
           {/* Step 2 */}
           <div className="group">
-            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300 p-8">
-              <div className="flex items-start gap-6">
-                <div className="flex-shrink-0 relative">
+            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300 p-4 sm:p-6 lg:p-8">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="relative flex-shrink-0">
                   <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
                     <Settings className="w-6 h-6 text-white" />
                   </div>
@@ -256,31 +256,31 @@ export default function InstructionsPage() {
                     </div>
                   )}
                 </div>
+                <div className="flex-1 flex items-center justify-between gap-3">
+                  <h3 className="text-2xl font-semibold text-white">{t.step2.title}</h3>
+                  <button
+                    onClick={() => toggleStepComplete(2)}
+                    className="text-sm px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 hover:bg-green-500/20 hover:text-green-400 transition-all duration-200"
+                  >
+                    {completedSteps.includes(2) ? t.ready : '✓'}
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <p className="text-slate-300 text-lg mb-6">{t.step2.description}</p>
                 
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <h3 className="text-2xl font-semibold text-white">{t.step2.title}</h3>
-                    <button
-                      onClick={() => toggleStepComplete(2)}
-                      className="text-sm px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 hover:bg-green-500/20 hover:text-green-400 transition-all duration-200"
-                    >
-                      {completedSteps.includes(2) ? t.ready : '✓'}
-                    </button>
-                  </div>
-                  <p className="text-slate-300 text-lg mb-6">{t.step2.description}</p>
-                  
-                  <div className="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30">
-                    <div className="space-y-4">
-                      {t.step2.instructions.map((instruction, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                          <div className="w-6 h-6 bg-orange-500/20 border border-orange-500/40 rounded-full flex items-center justify-center text-orange-400 text-sm font-semibold">
-                            {index + 1}
-                          </div>
-                          <p className="text-slate-300">{instruction}</p>
+                <div className="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30">
+                  <ul className="list-none space-y-4 text-left">
+                    {t.step2.instructions.map((instruction, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-orange-500/20 border border-orange-500/40 rounded-full flex items-center justify-center text-orange-400 text-sm font-semibold flex-shrink-0">
+                          {index + 1}
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                        <p className="text-slate-300 text-base">{instruction}</p>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -288,9 +288,9 @@ export default function InstructionsPage() {
 
           {/* Step 3 */}
           <div className="group">
-            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300 p-8">
-              <div className="flex items-start gap-6">
-                <div className="flex-shrink-0 relative">
+            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300 p-4 sm:p-6 lg:p-8">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="relative flex-shrink-0">
                   <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
                     <MessageCircle className="w-6 h-6 text-white" />
                   </div>
@@ -300,19 +300,19 @@ export default function InstructionsPage() {
                     </div>
                   )}
                 </div>
-                
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <h3 className="text-2xl font-semibold text-white">{t.step3.title}</h3>
-                    <button
-                      onClick={() => toggleStepComplete(3)}
-                      className="text-sm px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 hover:bg-green-500/20 hover:text-green-400 transition-all duration-200"
-                    >
-                      {completedSteps.includes(3) ? t.ready : '✓'}
-                    </button>
-                  </div>
-                  <p className="text-slate-300 text-lg">{t.step3.description}</p>
+                <div className="flex-1 flex items-center justify-between gap-3">
+                  <h3 className="text-2xl font-semibold text-white">{t.step3.title}</h3>
+                  <button
+                    onClick={() => toggleStepComplete(3)}
+                    className="text-sm px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 hover:bg-green-500/20 hover:text-green-400 transition-all duration-200"
+                  >
+                    {completedSteps.includes(3) ? t.ready : '✓'}
+                  </button>
                 </div>
+              </div>
+              
+              <div>
+                <p className="text-slate-300 text-lg">{t.step3.description}</p>
               </div>
             </div>
           </div>
