@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -25,7 +25,7 @@ const translations = {
     },
     services: {
       title: "Наши услуги установки",
-      popularLabel: "Популярный", // Добавлен перевод для метки "Популярный"
+      popularLabel: "Популярный",
       offline: {
         title: "Офлайн установка",
         features: ["Личная встреча", "Полная настройка", "Гарантия работы"],
@@ -80,7 +80,7 @@ const translations = {
     },
     services: {
       title: "Наші послуги встановлення",
-      popularLabel: "Популярний", // Добавлен перевод для метки "Популярный"
+      popularLabel: "Популярний",
       offline: {
         title: "Офлайн встановлення",
         features: ["Особиста зустріч", "Повне налаштування", "Гарантія роботи"],
@@ -126,7 +126,15 @@ const translations = {
 };
 
 export function Home() {
-  const [language, setLanguage] = useState<'ru' | 'ua'>('ru');
+  const [language, setLanguage] = useState<'ru' | 'ua'>(() => {
+    const savedLanguage = localStorage.getItem('language');
+    return savedLanguage === 'ru' || savedLanguage === 'ua' ? savedLanguage : 'ru';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
+  
   const [location, setLocation] = useLocation();
 
   const t = translations[language];
@@ -146,9 +154,31 @@ export function Home() {
     setLocation('/online-instructions');
   };
 
+  const servicesData = [
+    {
+      type: "offline",
+      price: 300,
+      isPopular: false,
+      onSelect: handleServiceSelect,
+      translations: t.services.offline,
+      popularLabel: t.services.popularLabel
+    },
+    {
+      type: "online",
+      price: 250,
+      isPopular: true,
+      onSelect: handleServiceSelect,
+      onShowInstructions: handleShowInstructions,
+      translations: {
+        ...t.services.online,
+        instructionsButton: t.services.online.instructionsButton
+      },
+      popularLabel: t.services.popularLabel
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-dark-primary text-slate-100 antialiased">
-      {/* Header - теперь закреплен вверху страницы */}
       <header className="bg-dark-secondary border-b border-slate-700 fixed top-0 left-0 right-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center justify-between">
@@ -171,9 +201,7 @@ export function Home() {
         </div>
       </header>
 
-      {/* Main content - добавлен отступ сверху */}
       <main className="pt-20">
-        {/* Hero Section */}
         <section className="py-16 bg-gradient-to-b from-dark-secondary to-dark-primary">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-100 mb-6" data-testid="text-hero-title">
@@ -203,7 +231,6 @@ export function Home() {
           </div>
         </section>
 
-        {/* Services Section */}
         <section id="services" className="py-16 bg-dark-primary">
           <div className="container mx-auto px-4">
             <h3 className="text-3xl font-bold text-center text-slate-100 mb-12" data-testid="text-services-title">
@@ -211,28 +238,10 @@ export function Home() {
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <PricingCard
-                type="offline"
-                price={300}
-                onSelect={handleServiceSelect}
-                translations={t.services.offline}
-                popularLabel={t.services.popularLabel}
-              />
+              {servicesData.map((service, index) => (
+                <PricingCard key={index} {...service} />
+              ))}
               
-              <PricingCard
-                type="online"
-                price={250}
-                isPopular={true}
-                onSelect={handleServiceSelect}
-                onShowInstructions={handleShowInstructions}
-                translations={{
-                  ...t.services.online,
-                  instructionsButton: t.services.online.instructionsButton
-                }}
-                popularLabel={t.services.popularLabel}
-              />
-              
-              {/* Кастомная карточка для установки через APK */}
               <Card className="bg-dark-secondary border border-slate-700 rounded-xl flex flex-col justify-between shadow-lg hover:shadow-xl transition-shadow duration-200">
                 <CardContent className="p-8">
                   <div className="text-center">
@@ -266,7 +275,6 @@ export function Home() {
           </div>
         </section>
 
-        {/* Contact Section */}
         <section className="py-16 bg-dark-primary">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
@@ -332,7 +340,6 @@ export function Home() {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="bg-dark-secondary border-t border-slate-700 py-8">
         <div className="container mx-auto px-4">
           <div className="text-center">
