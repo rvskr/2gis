@@ -7,7 +7,7 @@
   "dev": "cross-env NODE_ENV=development tsx server/index.ts",
   "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
   "start": "NODE_ENV=production node dist/index.js",
-  "predeploy": "npm run build && node -e \"require('fs').copyFileSync('dist/public/index.html', 'dist/public/404.html')\"",
+  "predeploy": "npm run build && node -e \"require('fs').copyFileSync('dist/public/index.html', 'dist/public/404.html'); require('fs').copyFileSync('twogis.png', 'dist/public/twogis.png')\"",
   "deploy": "gh-pages -d dist/public"
 },
   "dependencies": {

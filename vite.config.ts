@@ -16,7 +16,7 @@ export default defineConfig({
         ]
       : []),
   ],
-  base: "/2gis", // <-- Добавьте эту строку
+  base: "/2gis/", // trailing slash is required for correct BASE_URL resolution
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
