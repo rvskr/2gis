@@ -17,37 +17,75 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 let isAuthorizationCancelled = false; // Флаг, который будет отслеживать, отменена ли авторизация
 
+// Локальное хранилище пароля (fallback если Supabase недоступен)
+let localPasswordState = {
+  password: null,
+  valid: false,
+  supabaseAvailable: true
+};
+
 async function getPasswordState() {
-  const { data, error } = await supabase
-    .from('password_state')
-    .select('*')
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from('password_state')
+      .select('*')
+      .single();
 
-  if (error) {
-    console.error('Ошибка при получении состояния пароля из Supabase:', error.message);
-    return { password: null, valid: false };
+    if (error) {
+      console.error('Ошибка при получении состояния пароля из Supabase:', error.message);
+      console.log('Используем локальное хранилище пароля');
+      localPasswordState.supabaseAvailable = false;
+      return localPasswordState;
+    }
+
+    localPasswordState.supabaseAvailable = true;
+    // Синхронизируем локальное состояние с Supabase
+    localPasswordState.password = data.password;
+    localPasswordState.valid = data.valid;
+    return data;
+  } catch (error) {
+    console.error('Supabase недоступен:', error.message);
+    console.log('Используем локальное хранилище пароля');
+    localPasswordState.supabaseAvailable = false;
+    return localPasswordState;
   }
-
-  return data;
 }
 
 async function savePasswordState(password, valid) {
-  const { error } = await supabase
-    .from('password_state')
-    .upsert({ id: 1, password, valid }, { onConflict: 'id' });
+  // Всегда сохраняем локально
+  localPasswordState.password = password;
+  localPasswordState.valid = valid;
+  
+  try {
+    const { error } = await supabase
+      .from('password_state')
+      .upsert({ id: 1, password, valid }, { onConflict: 'id' });
 
-  if (error) {
-    console.error('Ошибка при сохранении состояния пароля в Supabase:', error.message);
+    if (error) {
+      console.error('Ошибка при сохранении состояния пароля в Supabase:', error.message);
+      console.log('Пароль сохранен только локально');
+      localPasswordState.supabaseAvailable = false;
+    } else {
+      localPasswordState.supabaseAvailable = true;
+    }
+  } catch (error) {
+    console.error('Supabase недоступен:', error.message);
+    console.log('Пароль сохранен только локально');
+    localPasswordState.supabaseAvailable = false;
   }
 }
 
 async function addAuthorizedDevice(model, brand, device, password, androidId) {
-  const { error } = await supabase
-    .from('authorized_devices')
-    .insert({ model, brand, device, password, android_id: androidId });
+  try {
+    const { error } = await supabase
+      .from('authorized_devices')
+      .insert({ model, brand, device, password, android_id: androidId });
 
-  if (error) {
-    console.error('Ошибка при добавлении устройства в Supabase:', error.message);
+    if (error) {
+      console.error('Ошибка при добавлении устройства в Supabase:', error.message);
+    }
+  } catch (error) {
+    console.error('Supabase недоступен при добавлении устройства:', error.message);
   }
 }
 
@@ -151,29 +189,36 @@ app.post('/use-android-id', async (req, res) => {
   }
 
   // Проверяем, существует ли устройство с таким Android ID в базе
-  const { data, error } = await supabase
-    .from('authorized_devices')
-    .select('*')
-    .eq('android_id', android_id)
-    .maybeSingle(); // Используем maybeSingle, чтобы избежать ошибки, если данных нет
+  try {
+    const { data, error } = await supabase
+      .from('authorized_devices')
+      .select('*')
+      .eq('android_id', android_id)
+      .maybeSingle(); // Используем maybeSingle, чтобы избежать ошибки, если данных нет
 
-  if (error) {
-    console.error('Ошибка при проверке устройства в Supabase:', error.message);
-    return res.status(500).json({ error: 'Ошибка проверки устройства' });
-  }
+    if (error) {
+      console.error('Ошибка при проверке устройства в Supabase:', error.message);
+      return res.status(500).json({ error: 'Ошибка проверки устройства' });
+    }
 
-  if (data) {
-    // Если устройство найдено, то оно авторизовано
-    const message = `✅ Устройство авторизовано по Android ID:\nМодель: ${model}\nБренд: ${brand}\nУстройство: ${device}\nAndroid ID: ${android_id}`;
+    if (data) {
+      // Если устройство найдено, то оно авторизовано
+      const message = `✅ Устройство авторизовано по Android ID:\nМодель: ${model}\nБренд: ${brand}\nУстройство: ${device}\nAndroid ID: ${android_id}`;
+      await sendToTelegram(message);
+
+      return res.status(200).json({ message: 'Устройство авторизовано' });
+    } else {
+      // Если устройство не найдено в базе
+      const message = `⚠️ Неудачная попытка авторизации по Android ID:\nМодель: ${model}\nБренд: ${brand}\nУстройство: ${device}\nAndroid ID: ${android_id}`;
+      await sendToTelegram(message);
+
+      return res.status(401).json({ error: 'Устройство не авторизовано' });
+    }
+  } catch (error) {
+    console.error('Supabase недоступен при проверке Android ID:', error.message);
+    const message = `⚠️ Суpabase недоступен. Попытка авторизации по Android ID:\nМодель: ${model}\nБренд: ${brand}\nУстройство: ${device}\nAndroid ID: ${android_id}`;
     await sendToTelegram(message);
-
-    return res.status(200).json({ message: 'Устройство авторизовано' });
-  } else {
-    // Если устройство не найдено в базе
-    const message = `⚠️ Неудачная попытка авторизации по Android ID:\nМодель: ${model}\nБренд: ${brand}\nУстройство: ${device}\nAndroid ID: ${android_id}`;
-    await sendToTelegram(message);
-
-    return res.status(401).json({ error: 'Устройство не авторизовано' });
+    return res.status(503).json({ error: 'База данных временно недоступна. Используйте пароль для авторизации.' });
   }
 });
 
@@ -193,11 +238,14 @@ app.post('/use-password', async (req, res) => {
 
   if (passwordState.valid && passwordState.password === password) {
     await savePasswordState(passwordState.password, false);
-    await generateAndLogPassword();
-    await addAuthorizedDevice(model, brand, device, password, android_id);
-
+    
+    // Сначала отправляем сообщение об успешной авторизации
     const message = `✅ Успешное использование пароля:\nМодель: ${model}\nБренд: ${brand}\nУстройство: ${device}\nAndroid ID: ${android_id}`;
     await sendToTelegram(message);
+    
+    // Затем генерируем новый пароль (отправит второе сообщение)
+    await generateAndLogPassword();
+    await addAuthorizedDevice(model, brand, device, password, android_id);
 
     return res.status(200).json({ message: 'Пароль использован. Новый код сгенерирован.' });
   } else {
